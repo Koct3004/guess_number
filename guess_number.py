@@ -93,3 +93,35 @@
 #     cipher_text='Олебэи яфвнэ мроплж сэжи — э пэй рдв злййвкпш лп нвящывнэ',
 #     shift=-3
 # ))
+
+
+
+class CipherMaster:
+    alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+    
+    def process_text(self, text, shift, is_encrypt):
+        result = []
+        for letter in text:
+            position = self.alphabet.find(letter.lower())
+            if position == -1:
+                result.append(letter)  # Если символ не в алфавите, добавляем его без изменений
+            else:
+                if is_encrypt:
+                    new_position = (position + shift) % len(self.alphabet)  # Шифрование
+                else:
+                    new_position = (position - shift) % len(self.alphabet)  # Дешифрование
+                result.append(self.alphabet[new_position])  # Добавляем зашифрованный или расшифрованный символ
+        return ''.join(result)
+
+# Проверка
+cipher_master = CipherMaster()
+print(cipher_master.process_text(
+    text='Однажды ревьюер принял проект с первого раза, с тех пор я его боюсь',
+    shift=2,
+    is_encrypt=True
+))
+print(cipher_master.process_text(
+    text='Олебэи яфвнэ мроплж сэжи — э пэй рдв злййвкпш лп нвящывнэ',
+    shift=-3,
+    is_encrypt=False
+))
